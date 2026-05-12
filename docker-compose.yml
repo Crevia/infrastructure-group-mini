@@ -1,0 +1,43 @@
+name: redpanda-0
+networks:
+  net-group-mini:
+    name: net-group-mini
+volumes:
+  redpanda-0: null
+services:
+  redpanda-0:
+    image: docker.redpanda.com/redpandadata/redpanda:v25.1.1
+    container_name: redpanda-0
+    networks:
+      - net-group-mini
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --node-id 0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:19092
+      - --advertise-kafka-addr=PLAINTEXT://redpanda-0:9092,PLAINTEXT_HOST://localhost:19092
+      - --rpc-addr=0.0.0.0:33145
+      - --advertise-rpc-addr=redpanda-0:33145
+    volumes:
+      - redpanda-0:/var/lib/redpanda/data
+
+  console:
+    container_name: redpanda-console
+    image: docker.redpanda.com/redpandadata/console:v3.1.0
+    networks:
+      - net-group-mini
+    volumes:
+      - ./console-config.yml:/tmp/config.yml
+    environment:
+      CONFIG_FILEPATH: /tmp/config.yml
+    command: /app/console
+    ports:
+      - 8181:8080
+    depends_on:
+      - redpanda-0
+
