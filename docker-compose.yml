@@ -41,3 +41,14 @@ services:
     depends_on:
       - redpanda-0
 
+  newt:
+    image: fosrl/newt
+    container_name: newt
+    restart: unless-stopped
+    networks:
+      - net-group-mini
+    environment:
+      - PANGOLIN_ENDPOINT=https://secure.1localhost.com
+      - NEWT_ID=embg2pzkliqeslx
+      - NEWT_SECRET=hbo4tiv0cwgtp2l3l5pm4240jpiqvbovdrfnzu31f12sgqjk
+
