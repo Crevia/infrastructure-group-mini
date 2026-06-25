@@ -36,8 +36,8 @@ services:
     environment:
       CONFIG_FILEPATH: /tmp/config.yml
     command: /app/console
-    ports:
-      - 8181:8080
+    # ports:
+    #   - 8181:8080
     depends_on:
       - redpanda-0
 
