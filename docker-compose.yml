@@ -3,9 +3,6 @@ networks:
   net-group-mini:
     name: net-group-mini
     enable_ipv6: true
-    ipam:
-      config:
-        - subnet: fd01::/80
 volumes:
   redpanda-0: null
 services:
